@@ -1,0 +1,44 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: pms-property-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5544/pms_property
+    username: pms
+    password: pms_dev_password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: property
+        format_sql: true
+    open-in-view: false
+
+  flyway:
+    enabled: true
+    schemas: property
+    default-schema: property
+    locations: classpath:db/migration
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8088/realms/pms-kenya
+          jwk-set-uri: http://localhost:8088/realms/pms-kenya/protocol/openid-connect/certs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    ke.co.codejambo.rentflow: DEBUG
